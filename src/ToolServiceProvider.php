@@ -22,7 +22,7 @@ class ToolServiceProvider extends ServiceProvider
         });
 
         Nova::serving(function (ServingNova $event) {
-            Nova::script('ofcold-nova-sortable', __DIR__.'/../dist/js/tool.js');
+            Nova::script('ofcold-nova-sortable', __DIR__ . '/../dist/js/tool.js');
         });
     }
 
@@ -38,8 +38,8 @@ class ToolServiceProvider extends ServiceProvider
         }
 
         Route::middleware(['nova', Authorize::class])
-                ->prefix('nova-vendor/nova-sortable')
-                ->group(__DIR__.'/../routes/api.php');
+            ->prefix('nova-vendor/nova-sortable')
+            ->group(__DIR__ . '/../routes/api.php');
     }
 
     /**
