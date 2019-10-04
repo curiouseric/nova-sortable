@@ -152,14 +152,12 @@ export default {
 
 		async updatedSortable(event) {
 			this.disabledSort = true
-			let items = btoa(JSON.stringify(
-				this.getResourcesForProps.map((item, key) => {
-					return {
-						id: item.id.value,
-						sort_order: 11000 + key,
-					}
-				})
-			))
+			let items = this.getResourcesForProps.map((item, key) => {
+				return {
+					id: item.id.value,
+					sort_order: 0 + key // 11000???
+				};
+			});
 
 			try {
 				const response = await Nova.request().post(
