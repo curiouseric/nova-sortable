@@ -16,6 +16,12 @@ trait SortableTrait
         return 'sort_order';
     }
 
+    /**
+     * 
+     * @param 
+     * @param string
+     * @return
+     */
     public function scopeOrdered(Builder $query, string $direction = 'asc')
     {
         return $query->orderBy(static::orderColumnName(), $direction);

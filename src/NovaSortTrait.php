@@ -17,7 +17,17 @@ trait NovaSortTrait
     public function serializeForIndex(NovaRequest $request, $fields = null)
     {
         return array_merge(parent::serializeForIndex($request, $fields), [
-            'sortable' => true
+            'sort_id' => $this->sort_column(),
+            'sortable' => true,
         ]);
+    }
+
+    /**
+     * 
+     * @return string
+     */
+    protected function sort_column()
+    {
+        return $this->id;
     }
 }

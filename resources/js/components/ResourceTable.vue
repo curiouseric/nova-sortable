@@ -151,10 +151,11 @@ export default {
 		},
 
 		async updatedSortable(event) {
-			this.disabledSort = true
+			this.disabledSort = true;
+			
 			let items = this.getResourcesForProps.map((item, key) => {
 				return {
-					id: item.id.value,
+					id: item.sort_id,
 					sort_order: 0 + key // 11000???
 				};
 			});
