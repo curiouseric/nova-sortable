@@ -23,7 +23,7 @@ trait NovaSortTrait
     }
 
     /**
-     * 
+     *
      * @return string
      */
     public function sort_column_value()
@@ -32,7 +32,7 @@ trait NovaSortTrait
     }
 
     /**
-     * 
+     *
      * @return string
      */
     public function sort_model(NovaRequest $request){
