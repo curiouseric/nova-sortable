@@ -16,10 +16,16 @@ trait NovaSortTrait
      */
     public function serializeForIndex(NovaRequest $request, $fields = null)
     {
-        return array_merge(parent::serializeForIndex($request, $fields), [
-            'sort_id' => $this->sort_column_value(),
+        $added = [
             'sortable' => true,
-        ]);
+            'sort_id' => $this->sort_column_value(),
+            'sort_model' => $this->sort_model($request),
+            'sort_on' => $this->sort_on(),
+        ];
+
+        //dump($added);
+
+        return array_merge(parent::serializeForIndex($request, $fields), $added);
     }
 
     /**
@@ -35,7 +41,14 @@ trait NovaSortTrait
      *
      * @return string
      */
-    public function sort_model(NovaRequest $request){
+    public function sort_model(NovaRequest $request)
+    {
         return get_class($request->newResource()->model());
     }
+
+    /**
+     *
+     */
+    public function sort_on()
+    { }
 }

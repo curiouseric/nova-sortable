@@ -37,7 +37,7 @@
     <draggable
       v-model="getResourcesForProps"
       tag="tbody"
-      @update="updatedSortable"
+      @update="updatedSortable($event)"
       handle=".handle"
     >
       <tr
@@ -155,35 +155,39 @@ export default {
     },
 
     async updatedSortable(event) {
-      //this.disabledSort = true;
-      //console.log('updatedSortable event',event);
-
-      console.log("updatedSortable", "event.newIndex", event.newIndex);
+      // this.disabledSort = true;
 
       // yuckkkkk
-      console.log(
-        "updatedSortable",
-        "$parent.currentPage",
-        this.$parent.$parent.$parent.$parent.currentPage
-      );
+      let pagination = this.$parent.$parent.$parent.$parent;
 
-      console.log(
-        "updatedSortable",
-        "$parent.perPage",
-        this.$parent.$parent.$parent.$parent.perPage
-      );
+      console.log("updatedSortable", "event.newIndex", event.newIndex);
+      console.log("pagination.currentPage", pagination.currentPage);
+      console.log("pagination.perPage", pagination.perPage);
 
-      let items = this.getResourcesForProps.map((item, key) => {
-        return {
-          id: item.sort_id,
-          sort_order: 1 + key
-        };
-      });
+      window._event = event;
+      window._pagination = pagination;
+
+      //   let items = this.getResourcesForProps.map((item, key) => {
+      //     return {
+      //       id: item.sort_id,
+      //       sort_order: 1 + key
+      //     };
+      //   });
+
+      let data = {
+        id: event.item.__vue__.resource.sort_id,
+        index: event.newIndex,
+        page: pagination.currentPage,
+        sort_model: event.item.__vue__.resource.sort_model,
+        sort_on: event.item.__vue__.resource.sort_on
+      };
+
+      console.log("data", data);
 
       try {
         const response = await Nova.request().post(
           `/nova-vendor/nova-sortable/${this.resourceName}/sortable`,
-          { items }
+          { data }
         );
 
         this.$toasted.show(this.__("The new order has been set!"), {

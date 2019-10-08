@@ -15,32 +15,38 @@ class SortableController extends Controller
      */
     public function store(NovaSortableRequest $request)    // NovaRequest
     {
-        //$model = get_class($request->newResource()->model());
         $model = $request->newResource()->sort_model();
-        $items = $request->items;
+        $res = $model::where('playlist_id', $request->sort_on)
+            ->where('id', '!=', $request->id);
 
-        //dump($request->newResource());
-        // dump($model);
-        // dd($items);
+        dump($res->toSql());
+        dd($res->getBindings());
 
-        foreach ($items as $item) {
-            tap($model::find($item['id']), function ($entry) use ($model, $item) {
-                $entry->{$model::orderColumnName()} = $item['sort_order'];
-            })->save();
-        }
+        //
+        // $items = $request->items;
 
-        $paginator = $this->paginator(
-            $request,
-            $resource = $request->resource()
-        );
+        // //dump($request->newResource());
+        // // dump($model);
+        // // dd($items);
 
-        return response()->json([
-            'label' => $resource::label(),
-            'resources' => $paginator->getCollection()->mapInto($resource)->map->serializeForIndex($request),
-            'prev_page_url' => $paginator->previousPageUrl(),
-            'next_page_url' => $paginator->nextPageUrl(),
-            'softDeletes' => $resource::softDeletes(),
-        ]);
+        // foreach ($items as $item) {
+        //     tap($model::find($item['id']), function ($entry) use ($model, $item) {
+        //         $entry->{$model::orderColumnName()} = $item['sort_order'];
+        //     })->save();
+        // }
+
+        // $paginator = $this->paginator(
+        //     $request,
+        //     $resource = $request->resource()
+        // );
+
+        // return response()->json([
+        //     'label' => $resource::label(),
+        //     'resources' => $paginator->getCollection()->mapInto($resource)->map->serializeForIndex($request),
+        //     'prev_page_url' => $paginator->previousPageUrl(),
+        //     'next_page_url' => $paginator->nextPageUrl(),
+        //     'softDeletes' => $resource::softDeletes(),
+        // ]);
     }
 
     /**
