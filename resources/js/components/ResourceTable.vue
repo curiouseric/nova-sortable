@@ -160,29 +160,22 @@ export default {
       // yuckkkkk
       let pagination = this.$parent.$parent.$parent.$parent;
 
-      console.log("updatedSortable", "event.newIndex", event.newIndex);
-      console.log("pagination.currentPage", pagination.currentPage);
-      console.log("pagination.perPage", pagination.perPage);
+      //   console.log("updatedSortable", "event.newIndex", event.newIndex);
+      //   console.log("pagination.currentPage", pagination.currentPage);
+      //   console.log("pagination.perPage", pagination.perPage);
 
       window._event = event;
       window._pagination = pagination;
-
-      //   let items = this.getResourcesForProps.map((item, key) => {
-      //     return {
-      //       id: item.sort_id,
-      //       sort_order: 1 + key
-      //     };
-      //   });
 
       let data = {
         id: event.item.__vue__.resource.sort_id,
         index: event.newIndex,
         page: pagination.currentPage,
-        //sort_model: event.item.__vue__.resource.sort_model,
-        sort_on: event.item.__vue__.resource.sort_on
+        sort_on: event.item.__vue__.resource.sort_on,
+        viaRelationship: this.viaRelationship,
+        viaResource: this.viaResource,
+        viaResourceId: this.viaResourceId
       };
-
-      console.log("data", data);
 
       try {
         const response = await Nova.request().post(

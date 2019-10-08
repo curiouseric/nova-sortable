@@ -20,8 +20,9 @@ class SortableController extends Controller
         $index = ($request->page - 1) * $nova_model::$perPageViaRelationship + $request->index;
         $model = $nova_model->sort_model();
         $sort_column = $nova_model->sort_column_name();
+        $sort_group = $nova_model->sort_group();
 
-        $res = $model::where('playlist_id', $request->sort_on)
+        $res = $model::where($sort_group, $request->sort_on)
             ->where('id', '!=', $request->id)
             ->orderBy($sort_column, 'ASC');
 
@@ -38,31 +39,18 @@ class SortableController extends Controller
         $model::where('id', $request->id)
             ->update([$sort_column => $index + 1]);
 
-        //
-        // $items = $request->items;
+        $paginator = $this->paginator(
+            $request,
+            $resource = $request->resource()
+        );
 
-        // //dump($request->newResource());
-        // // dump($model);
-        // // dd($items);
-
-        // foreach ($items as $item) {
-        //     tap($model::find($item['id']), function ($entry) use ($model, $item) {
-        //         $entry->{$model::orderColumnName()} = $item['sort_order'];
-        //     })->save();
-        // }
-
-        // $paginator = $this->paginator(
-        //     $request,
-        //     $resource = $request->resource()
-        // );
-
-        // return response()->json([
-        //     'label' => $resource::label(),
-        //     'resources' => $paginator->getCollection()->mapInto($resource)->map->serializeForIndex($request),
-        //     'prev_page_url' => $paginator->previousPageUrl(),
-        //     'next_page_url' => $paginator->nextPageUrl(),
-        //     'softDeletes' => $resource::softDeletes(),
-        // ]);
+        return response()->json([
+            'label' => $resource::label(),
+            'resources' => $paginator->getCollection()->mapInto($resource)->map->serializeForIndex($request),
+            'prev_page_url' => $paginator->previousPageUrl(),
+            'next_page_url' => $paginator->nextPageUrl(),
+            'softDeletes' => $resource::softDeletes(),
+        ]);
     }
 
     /**

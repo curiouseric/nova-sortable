@@ -47,6 +47,14 @@ trait NovaSortTrait
 
     /**
      *
+     */
+    public function sort_group()
+    {
+        return 'id';
+    }
+
+    /**
+     *
      * @return string
      */
     public function sort_model(NovaRequest $request)
@@ -56,7 +64,11 @@ trait NovaSortTrait
 
     /**
      *
+     * @return string
      */
     public function sort_on()
-    { }
+    {
+        $sort_group = $this->sort_group();
+        return $this->$sort_group;
+    }
 }
