@@ -178,7 +178,7 @@ export default {
         id: event.item.__vue__.resource.sort_id,
         index: event.newIndex,
         page: pagination.currentPage,
-        sort_model: event.item.__vue__.resource.sort_model,
+        //sort_model: event.item.__vue__.resource.sort_model,
         sort_on: event.item.__vue__.resource.sort_on
       };
 
@@ -187,7 +187,7 @@ export default {
       try {
         const response = await Nova.request().post(
           `/nova-vendor/nova-sortable/${this.resourceName}/sortable`,
-          { data }
+          data
         );
 
         this.$toasted.show(this.__("The new order has been set!"), {

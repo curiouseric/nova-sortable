@@ -19,13 +19,21 @@ trait NovaSortTrait
         $added = [
             'sortable' => true,
             'sort_id' => $this->sort_column_value(),
-            'sort_model' => $this->sort_model($request),
             'sort_on' => $this->sort_on(),
         ];
 
         //dump($added);
 
         return array_merge(parent::serializeForIndex($request, $fields), $added);
+    }
+
+    /**
+     *
+     * @return string
+     */
+    public function sort_column_name()
+    {
+        return 'sort_order';
     }
 
     /**

@@ -15,12 +15,28 @@ class SortableController extends Controller
      */
     public function store(NovaSortableRequest $request)    // NovaRequest
     {
-        $model = $request->newResource()->sort_model();
-        $res = $model::where('playlist_id', $request->sort_on)
-            ->where('id', '!=', $request->id);
+        $nova_model = $request->newResource();
 
-        dump($res->toSql());
-        dd($res->getBindings());
+        $index = ($request->page - 1) * $nova_model::$perPageViaRelationship + $request->index;
+        $model = $nova_model->sort_model();
+        $sort_column = $nova_model->sort_column_name();
+
+        $res = $model::where('playlist_id', $request->sort_on)
+            ->where('id', '!=', $request->id)
+            ->orderBy($sort_column, 'ASC');
+
+        // dump($res->toSql());
+        // dd($res->getBindings());
+
+        $res->get()->each(function ($item, $k) use ($index, $sort_column) {
+            $sort = $k < $index ? $k + 1 : $k + 2;
+
+            $item->$sort_column = $sort;
+            $item->save();
+        });
+
+        $model::where('id', $request->id)
+            ->update([$sort_column => $index + 1]);
 
         //
         // $items = $request->items;
