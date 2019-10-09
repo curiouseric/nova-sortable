@@ -18,25 +18,10 @@ class SortableController extends Controller
         $nova_model = $request->newResource();
 
         $index = ($request->page - 1) * $nova_model::$perPageViaRelationship + $request->index;
-        $model = $nova_model->sort_model();
-        $sort_column = $nova_model->sort_column_name();
-        $sort_group = $nova_model->sort_group();
+        $model = $nova_model->sort_model($request);
+        $sort_column = $model::sort_column_name();
 
-        $res = $model::where($sort_group, $request->sort_on)
-            ->where('id', '!=', $request->id)
-            ->orderBy($sort_column, 'ASC');
-
-        // dump($res->toSql());
-        // dd($res->getBindings());
-
-        $res->get()->each(function ($item, $k) use ($index, $sort_column) {
-            $sort = $k < $index ? $k + 1 : $k + 2;
-
-            $item->$sort_column = $sort;
-            $item->save();
-        });
-
-        $model::where('id', $request->id)
+        $model::find($request->id)
             ->update([$sort_column => $index + 1]);
 
         $paginator = $this->paginator(
