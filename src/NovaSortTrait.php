@@ -45,14 +45,4 @@ trait NovaSortTrait
     {
         return get_class($request->newResource()->model());
     }
-
-    /**
-     *
-     * @return string
-     */
-    public function sort_on()
-    {
-        $sort_group = $this->sort_group();
-        return $this->$sort_group;
-    }
 }
