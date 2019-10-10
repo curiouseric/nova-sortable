@@ -19,7 +19,7 @@ trait NovaSortTrait
         $added = [
             'sortable' => true,
             'sort_id' => $this->sort_column_value(),
-            'sort_on' => $this->sort_on(),
+            'sort_on' => $this->sort_on(),                  'sort_order'
         ];
 
         //dump($added);
@@ -28,7 +28,8 @@ trait NovaSortTrait
     }
 
     /**
-     *
+     * needs to be overwritten for pivot table ordering
+     * used in self::serializeForIndex
      * @return string
      */
     public function sort_column_value()

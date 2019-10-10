@@ -24,7 +24,7 @@ trait SortableTrait
 
     /**
      * callback for saved and updated events
-     * @param
+     * @param Model which has been reordered
      * @param string for debugging
      */
     public static function reorder($model, $event)
@@ -32,15 +32,16 @@ trait SortableTrait
         //dump([$event => $model->id]);
 
         $model->withoutEvents(function () use ($model) {
-            $sort_column = $model::sort_column_name();
-            $sort_group = $model::sort_group();
-            $sort_on = $model->sort_on();
+            $sort_column = $model::sort_column_name();      // 'sort_order'
+            $sort_group = $model::sort_group();             // 'id'
 
-            $index = $model->$sort_column;
+            $sort_on = $model->sort_on();
 
             $res = $model::where($sort_group, $sort_on)
                 ->where('id', '!=', $model->id)
                 ->orderBy($sort_column, 'ASC');
+
+            $index = $model->$sort_column;
 
             $res->get()->each(function ($item, $k) use ($index, $sort_column) {
                 $sort = $k < $index - 1 ? $k + 1 : $k + 2;
@@ -57,7 +58,7 @@ trait SortableTrait
     }
 
     /**
-     *
+     * default name of column in db for sorting index
      * @return string
      */
     public static function sort_column_name()
@@ -66,7 +67,7 @@ trait SortableTrait
     }
 
     /**
-     *
+     * default
      */
     public static function sort_group()
     {
@@ -80,6 +81,7 @@ trait SortableTrait
     public function sort_on()
     {
         $sort_group = self::sort_group();
+
         return $this->$sort_group;
     }
 }
