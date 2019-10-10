@@ -7,7 +7,7 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 trait NovaSortTrait
 {
     /**
-     * Add sortable property
+     * Add sortable property for vue/js frontend
      *
      * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @param  \Illuminate\Support\Collection  $fields
@@ -31,15 +31,6 @@ trait NovaSortTrait
      *
      * @return string
      */
-    public function sort_column_name()
-    {
-        return 'sort_order';
-    }
-
-    /**
-     *
-     * @return string
-     */
     public function sort_column_value()
     {
         return $this->id;
@@ -47,14 +38,7 @@ trait NovaSortTrait
 
     /**
      *
-     */
-    public function sort_group()
-    {
-        return 'id';
-    }
-
-    /**
-     *
+     * @param
      * @return string
      */
     public function sort_model(NovaRequest $request)

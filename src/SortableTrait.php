@@ -23,7 +23,9 @@ trait SortableTrait
     }
 
     /**
-     *
+     * callback for saved and updated events
+     * @param
+     * @param string for debugging
      */
     public static function reorder($model, $event)
     {
