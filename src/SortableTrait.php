@@ -13,6 +13,10 @@ trait SortableTrait
     {
         parent::boot();
 
+        static::deleted(function ($model) {
+            return self::reorder($model, 'deleted');
+        });
+
         static::saved(function ($model) {
             return self::reorder($model, 'saved');
         });
@@ -42,6 +46,13 @@ trait SortableTrait
                 ->orderBy($sort_column, 'ASC');
 
             $index = $model->$sort_column;
+            if ($index > 0) {
+                $index = max(1, $index);
+                $index = min($index, $res->count() + 1);
+            } else {
+                //deleting
+                $index = $res->count() + 1;
+            }
 
             $res->get()->each(function ($item, $k) use ($index, $sort_column) {
                 $sort = $k < $index - 1 ? $k + 1 : $k + 2;
@@ -49,9 +60,6 @@ trait SortableTrait
                 $item->$sort_column = $sort;
                 $item->save();
             });
-
-            $index = min($index, $res->count() + 1);
-            $index = max(1, $index);
 
             $model->update([$sort_column => $index]);
         });

@@ -22,8 +22,6 @@ trait NovaSortTrait
             'sort_on' => $this->sort_on(),                  'sort_order'
         ];
 
-        //dump($added);
-
         return array_merge(parent::serializeForIndex($request, $fields), $added);
     }
 
