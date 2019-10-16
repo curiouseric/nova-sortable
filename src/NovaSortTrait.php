@@ -40,7 +40,7 @@ trait NovaSortTrait
      * @param
      * @return string
      */
-    public function sort_model(NovaRequest $request)
+    public static function sort_model(NovaRequest $request)
     {
         return get_class($request->newResource()->model());
     }

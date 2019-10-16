@@ -18,7 +18,7 @@ class SortableController extends Controller
         $nova_model = $request->newResource();
 
         $index = ($request->page - 1) * $nova_model::$perPageViaRelationship + $request->index;
-        $model = $nova_model->sort_model($request);
+        $model = $nova_model::sort_model($request);
         $sort_column = $model::sort_column_name();
 
         $model::find($request->id)
