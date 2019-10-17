@@ -45,17 +45,21 @@ trait SortableTrait
                 ->where('id', '!=', $model->id)
                 ->orderBy($sort_column, 'ASC');
 
+            if( !$model->id ){
+                dd('fix your sync!');
+            }
+
             $index = $model->$sort_column;
             if ($index > 0) {
-                $index = max(1, $index);
-                $index = min($index, $res->count() + 1);
+                $index = max(0, $index);
+                $index = min($index, $res->count());
             } else {
                 //deleting
                 $index = $res->count() + 1;
             }
 
             $res->get()->each(function ($item, $k) use ($index, $sort_column) {
-                $sort = $k < $index - 1 ? $k + 1 : $k + 2;
+                $sort = $k < $index ? $k : $k + 1;
 
                 $item->$sort_column = $sort;
                 $item->save();
