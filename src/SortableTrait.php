@@ -38,7 +38,6 @@ trait SortableTrait
         $model->withoutEvents(function () use ($model) {
             $sort_column = $model::sort_column_name();      // 'sort_order'
             $sort_group = $model::sort_group();             // 'id'
-
             $sort_on = $model->sort_on();
 
             $res = $model::where($sort_group, $sort_on)
@@ -50,7 +49,7 @@ trait SortableTrait
             }
 
             $index = $model->$sort_column;
-            if ($index > 0) {
+            if ($index >= 0) {
                 $index = max(0, $index);
                 $index = min($index, $res->count());
             } else {

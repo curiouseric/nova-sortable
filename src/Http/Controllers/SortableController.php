@@ -22,7 +22,7 @@ class SortableController extends Controller
         $sort_column = $model::sort_column_name();
 
         $model::find($request->id)
-            ->update([$sort_column => $index + 1]);
+            ->update([$sort_column => $index]);
 
         $paginator = $this->paginator(
             $request,
