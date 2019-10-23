@@ -17,6 +17,12 @@ trait SortableTrait
             return self::reorder($model, 'deleted');
         });
 
+        static::saving(function($model){
+            // if( is_null($model->sort_order) ){
+            //     $model->sort_order = 0;
+            // }
+        });
+
         static::saved(function ($model) {
             return self::reorder($model, 'saved');
         });
@@ -29,7 +35,7 @@ trait SortableTrait
     /**
      * callback for saved and updated events
      * @param Model which has been reordered
-     * @param string for debugging
+     * @param string for debugging @TODO remove
      */
     public static function reorder($model, $event)
     {
