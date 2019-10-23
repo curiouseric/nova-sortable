@@ -181,25 +181,30 @@ module.exports = __webpack_require__(2);
 
 /***/ }),
 /* 2 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuedraggable__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuedraggable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vuedraggable__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_ResourceTable__ = __webpack_require__(5);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_ResourceTable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__components_ResourceTable__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_ResourceTableRow__ = __webpack_require__(12);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_ResourceTableRow___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__components_ResourceTableRow__);
 
 
+var _vuedraggable = __webpack_require__(3);
 
+var _vuedraggable2 = _interopRequireDefault(_vuedraggable);
+
+var _ResourceTable = __webpack_require__(5);
+
+var _ResourceTable2 = _interopRequireDefault(_ResourceTable);
+
+var _ResourceTableRow = __webpack_require__(12);
+
+var _ResourceTableRow2 = _interopRequireDefault(_ResourceTableRow);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 Nova.booting(function (Vue, router, store) {
 
-	Vue.component('draggable', __WEBPACK_IMPORTED_MODULE_0_vuedraggable___default.a);
-	Vue.component('resource-table', __WEBPACK_IMPORTED_MODULE_1__components_ResourceTable___default.a);
-	Vue.component('resource-table-row', __WEBPACK_IMPORTED_MODULE_2__components_ResourceTableRow___default.a);
+	Vue.component('draggable', _vuedraggable2.default);
+	Vue.component('resource-table', _ResourceTable2.default);
+	Vue.component('resource-table-row', _ResourceTableRow2.default);
 	console.log(Vue);
 });
 
@@ -7222,19 +7227,24 @@ module.exports = Component.exports
 
 /***/ }),
 /* 6 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator__ = __webpack_require__(7);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_laravel_nova__ = __webpack_require__(10);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_laravel_nova___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_laravel_nova__);
 
 
-function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 
-//
+var _regenerator = __webpack_require__(7);
+
+var _regenerator2 = _interopRequireDefault(_regenerator);
+
+var _laravelNova = __webpack_require__(10);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; } //
 //
 //
 //
@@ -7301,10 +7311,8 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 //
 //
 
-
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-  mixins: [__WEBPACK_IMPORTED_MODULE_1_laravel_nova__["InteractsWithResourceInformation"]],
+exports.default = {
+  mixins: [_laravelNova.InteractsWithResourceInformation],
 
   props: {
     authorizedToRelate: {
@@ -7393,9 +7401,11 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
       this.$emit("order", field);
     },
     updatedSortable: function () {
-      var _ref = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee(event) {
+      var _ref = _asyncToGenerator( /*#__PURE__*/_regenerator2.default.mark(function _callee(event) {
+        var _this = this;
+
         var pagination, data, response;
-        return __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.wrap(function _callee$(_context) {
+        return _regenerator2.default.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
@@ -7407,6 +7417,8 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
                 //   console.log("updatedSortable", "event.newIndex", event.newIndex);
                 //   console.log("pagination.currentPage", pagination.currentPage);
                 //   console.log("pagination.perPage", pagination.perPage);
+
+                // for debugging
 
                 window._event = event;
                 window._pagination = pagination;
@@ -7422,7 +7434,10 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
                 };
                 _context.prev = 4;
                 _context.next = 7;
-                return Nova.request().post("/nova-vendor/nova-sortable/" + this.resourceName + "/sortable", data);
+                return Nova.request().post("/nova-vendor/nova-sortable/" + this.resourceName + "/sortable", data).then(function (data) {
+                  // update table with new sort order
+                  _this.resources = data.data.resources;
+                });
 
               case 7:
                 response = _context.sent;
@@ -7489,7 +7504,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
       return this.relationshipType == "hasOne" || this.relationshipType == "morphOne";
     }
   }
-});
+};
 
 /***/ }),
 /* 7 */
@@ -18673,10 +18688,14 @@ module.exports = Component.exports
 
 /***/ }),
 /* 13 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 //
 //
 //
@@ -18856,7 +18875,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 
-/* harmony default export */ __webpack_exports__["default"] = ({
+exports.default = {
   props: ["disabledSort", "testId", "deleteResource", "restoreResource", "resource", "resourcesSelected", "resourceName", "relationshipType", "viaRelationship", "viaResource", "viaResourceId", "viaManyToMany", "checked", "actionsAreAvailable", "shouldShowCheckboxes", "updateSelectionStatus"],
 
   data: function data() {
@@ -18894,7 +18913,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       this.restoreModalOpen = false;
     }
   }
-});
+};
 
 /***/ }),
 /* 14 */

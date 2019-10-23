@@ -164,6 +164,7 @@ export default {
       //   console.log("pagination.currentPage", pagination.currentPage);
       //   console.log("pagination.perPage", pagination.perPage);
 
+      // for debugging
       window._event = event;
       window._pagination = pagination;
 
@@ -178,10 +179,15 @@ export default {
       };
 
       try {
-        const response = await Nova.request().post(
-          `/nova-vendor/nova-sortable/${this.resourceName}/sortable`,
-          data
-        );
+        const response = await Nova.request()
+          .post(
+            `/nova-vendor/nova-sortable/${this.resourceName}/sortable`,
+            data
+          )
+          .then(data => {
+            // update table with new sort order
+            this.resources = data.data.resources;
+          });
 
         this.$toasted.show(this.__("The new order has been set!"), {
           type: "success"

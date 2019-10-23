@@ -21,9 +21,9 @@ trait SortableTrait
             return self::reorder($model, 'saved');
         });
 
-        static::updated(function ($model) {
-            return self::reorder($model, 'updated');
-        });
+        // static::updated(function ($model) {
+        //     return self::reorder($model, 'updated');
+        // });
     }
 
     /**
@@ -33,7 +33,7 @@ trait SortableTrait
      */
     public static function reorder($model, $event)
     {
-        //dump([$event => $model->id]);
+        //dump([$model->id => $event]);
 
         $model->withoutEvents(function () use ($model) {
             $sort_column = $model::sort_column_name();      // 'sort_order'
@@ -44,11 +44,12 @@ trait SortableTrait
                 ->where('id', '!=', $model->id)
                 ->orderBy($sort_column, 'ASC');
 
-            if( !$model->id ){
-                dd('fix your sync!');
-            }
+            // dump($res->toSql());
+            // dd($res->getBindings());
 
             $index = $model->$sort_column;
+            //dump($index);
+
             if ($index >= 0) {
                 $index = max(0, $index);
                 $index = min($index, $res->count());
