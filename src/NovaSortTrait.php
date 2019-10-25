@@ -18,8 +18,8 @@ trait NovaSortTrait
     {
         $added = [
             'sortable' => true,
-            'sort_id' => $this->sort_column_value(),
-            'sort_on' => $this->sort_on(),                  // 'sort_order'
+            'sort_id' => $this->sortColumnValue(),
+            'sort_on' => $this->sortOn(),                  // 'sort_order'
         ];
 
         $data = array_merge(parent::serializeForIndex($request, $fields), $added);
@@ -32,7 +32,7 @@ trait NovaSortTrait
      * used in self::serializeForIndex
      * @return string
      */
-    public function sort_column_value()
+    public function sortColumnValue()
     {
         return $this->id;
     }
@@ -42,14 +42,16 @@ trait NovaSortTrait
      * @param
      * @return string
      */
-    public static function sort_model(NovaRequest $request)
+    public static function sortModel(NovaRequest $request)
     {
         return get_class($request->newResource()->model());
     }
 
     /**
-     *
+     * name of the sorting column
+     * @return string
      */
-    public function sort_on(){
+    public function sortOn(){
+        return 'sort_order';
     }
 }

@@ -2,6 +2,8 @@
 
 namespace Ofcold\NovaSortable;
 
+use Exception;
+
 trait SortableTrait
 {
     /**
@@ -17,7 +19,7 @@ trait SortableTrait
             return self::reorder($model, 'deleted');
         });
 
-        static::saving(function($model){
+        static::saving(function ($model) {
             // if( is_null($model->sort_order) ){
             //     $model->sort_order = 0;
             // }
@@ -36,25 +38,28 @@ trait SortableTrait
      * callback for saved and updated events
      * @param Model which has been reordered
      * @param string for debugging @TODO remove
+     * @throws Exception
+     * @return
      */
     public static function reorder($model, $event)
     {
-        //dump([$model->id => $event]);
-
         $model->withoutEvents(function () use ($model) {
-            $sort_column = $model::sort_column_name();      // 'sort_order'
-            $sort_group = $model::sort_group();             // 'id'
-            $sort_on = $model->sort_on();
+            if (!$model->id) {
+                throw new Exception('Model ID does not exist!');
+            }
+
+            $sort_column = $model::sortColumnName();        // 'sort_order'
+            $sort_group = $model::sortGroup();              // 'id'
+            $sort_on = $model->sortOn();
 
             $res = $model::where($sort_group, $sort_on)
                 ->where('id', '!=', $model->id)
                 ->orderBy($sort_column, 'ASC');
 
-            // dump($res->toSql());
-            // dd($res->getBindings());
+            //dump($res->toSql());
+            //dd($res->getBindings());
 
             $index = $model->$sort_column;
-            //dump($index);
 
             if ($index >= 0) {
                 $index = max(0, $index);
@@ -79,7 +84,7 @@ trait SortableTrait
      * default name of column in db for sorting index
      * @return string
      */
-    public static function sort_column_name()
+    public static function sortColumnName()
     {
         return 'sort_order';
     }
@@ -87,7 +92,7 @@ trait SortableTrait
     /**
      * default
      */
-    public static function sort_group()
+    public static function sortGroup()
     {
         return 'id';
     }
@@ -96,9 +101,9 @@ trait SortableTrait
      *
      * @return string
      */
-    public function sort_on()
+    public function sortOn()
     {
-        $sort_group = self::sort_group();
+        $sort_group = self::sortGroup();
 
         return $this->$sort_group;
     }
