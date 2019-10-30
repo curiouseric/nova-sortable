@@ -34,7 +34,9 @@ trait NovaSortTrait
      */
     public function sortColumnValue()
     {
-        return $this->id;
+        return $this->pivot ? $this->pivot->id : $this->id;
+        // return $this->pivot ? $this->pivot->id : 'sort-column-none';
+        // return $this->id;
     }
 
     /**

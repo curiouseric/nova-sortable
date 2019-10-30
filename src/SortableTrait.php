@@ -44,17 +44,19 @@ trait SortableTrait
     public static function reorder($model, $event)
     {
         $model->withoutEvents(function () use ($model) {
-            if (!$model->id) {
-                throw new Exception('Model ID does not exist!');
-            }
+
 
             $sort_column = $model::sortColumnName();        // 'sort_order'
             $sort_group = $model::sortGroup();              // 'id'
             $sort_on = $model->sortOn();
 
             $res = $model::where($sort_group, $sort_on)
-                ->where('id', '!=', $model->id)
                 ->orderBy($sort_column, 'ASC');
+
+            if ($model->id) {
+                // not present in deleting
+                $res->where('id', '!=', $model->id);
+            }
 
             //dump($res->toSql());
             //dd($res->getBindings());
