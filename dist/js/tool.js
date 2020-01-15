@@ -7409,8 +7409,6 @@ exports.default = {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                // this.disabledSort = true;
-
                 // yuckkkkk
                 pagination = this.$parent.$parent.$parent.$parent;
 

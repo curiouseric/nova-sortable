@@ -155,8 +155,6 @@ export default {
     },
 
     async updatedSortable(event) {
-      // this.disabledSort = true;
-
       // yuckkkkk
       let pagination = this.$parent.$parent.$parent.$parent;
 
