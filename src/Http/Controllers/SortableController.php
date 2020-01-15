@@ -21,6 +21,9 @@ class SortableController extends Controller
         $model = $nova_model::sortModel($request);
         $sort_column = $model::sortColumnName();
 
+        // dump($request->id);
+        // dump([$sort_column => $index]);
+
         $model::find($request->id)
             ->update([$sort_column => $index]);
 

@@ -44,13 +44,10 @@ trait SortableTrait
     public static function reorder($model, $event)
     {
         $model->withoutEvents(function () use ($model) {
-
-
             $sort_column = $model::sortColumnName();        // 'sort_order'
-            $sort_group = $model::sortGroup();              // 'id'
             $sort_on = $model->sortOn();
 
-            $res = $model::where($sort_group, $sort_on)
+            $res = $model::where($sort_on)
                 ->orderBy($sort_column, 'ASC');
 
             if ($model->id) {
@@ -58,8 +55,8 @@ trait SortableTrait
                 $res->where('id', '!=', $model->id);
             }
 
-            //dump($res->toSql());
-            //dd($res->getBindings());
+            // dump($res->toSql());
+            // dd($res->getBindings());
 
             $index = $model->$sort_column;
 
@@ -93,20 +90,26 @@ trait SortableTrait
 
     /**
      * default
+     * @return array
      */
     public static function sortGroup()
     {
-        return 'id';
+        return ['id'];
     }
 
     /**
      *
-     * @return string
+     * @return array
      */
     public function sortOn()
     {
         $sort_group = self::sortGroup();
+        $cols = [];
 
-        return $this->$sort_group;
+        array_walk($sort_group, function ($col) use (&$cols) {
+            $cols[] = [$col, '=', $this->$col];
+        });
+
+        return $cols;
     }
 }
