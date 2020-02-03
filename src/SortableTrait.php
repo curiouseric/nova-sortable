@@ -38,7 +38,7 @@ trait SortableTrait
 
     /**
      *
-     * @return array
+     * @return array [['content_id', '=', '123'], ['number', '=', '3']]
      */
     public function sortOn()
     {
