@@ -32,7 +32,8 @@ class SortableObserver
             $sort_column = $model::sortColumnName();        // 'sort_order'
             $sort_on = $model->sortOn();
 
-            $res = $model::where($sort_on)
+            $res = $model::withoutGlobalScopes()
+                ->where($sort_on)
                 ->orderBy($sort_column, 'ASC');
 
             if ($model->id) {

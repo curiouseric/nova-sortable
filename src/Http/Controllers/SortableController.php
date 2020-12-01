@@ -24,7 +24,8 @@ class SortableController extends Controller
         // dump($request->id);
         // dump([$sort_column => $index]);
 
-        $model::find($request->id)
+        $model::withoutGlobalScopes()
+            ->find($request->id)
             ->update([$sort_column => $index]);
 
         $paginator = $this->paginator(
